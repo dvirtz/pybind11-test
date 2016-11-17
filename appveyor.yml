@@ -19,7 +19,7 @@ install:
   - set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
   - appveyor DownloadFile https://bootstrap.pypa.io/get-pip.py
   - python get-pip.py
-  - pip install gmusicapi 
+  - call scripts\install-gmusicapi.bat 
 
 build_script:
   - cmake . -B_build
