@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 
 project(pybind11-test)
 
+set(CMAKE_CXX_STANDARD 14)
+
 set(PYBIND11_PYTHON_VERSION 2.7)
 add_subdirectory(pybind11)
 
