@@ -1,0 +1,27 @@
+platform:
+  - Win32
+  
+environment:  
+  matrix:
+    - PYTHON: C:\Python27.10
+      PYTHON_VERSION: 2.7.10
+      
+configuration: Release
+
+install:
+  - git submodule update --init --recursive
+  - if "%platform%"=="Win32" set PYTHON_URL=https://www.python.org/ftp/python/2.7.10/python-2.7.10.msi
+  - if "%platform%"=="x64" set PYTHON_URL=https://www.python.org/ftp/python/2.7.10/python-2.7.10.amd64.msi
+  - appveyor DownloadFile %PYTHON_URL% -FileName python2710.msi
+  - msiexec /i python2710.msi /qn /norestart TARGETDIR=%PYTHON%
+  - set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
+  - appveyor DownloadFile https://bootstrap.pypa.io/get-pip.py
+  - python get-pip.py
+  - pip install gmusicapi 
+
+build_script:
+  - cmake . -B_build -DCMAKE_BUILD_TYPE=%CONFIGURATION%
+  - cmake --build _build --config %CONFIGURATION%
+  
+test_script:
+  - cmake --build _build --target RUN_TESTS
