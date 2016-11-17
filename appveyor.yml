@@ -26,4 +26,4 @@ build_script:
   - cmake --build _build --config %CONFIGURATION% -- -clp:Verbosity=minimal
   
 test_script:
-  - cmake --build _build --target RUN_TESTS -- -clp:Verbosity=minimal
+  - cmake --build _build --target RUN_TESTS --config %CONFIGURATION% -- -clp:Verbosity=minimal
