@@ -10,8 +10,8 @@ int main()
     try
     {
         auto sys = py::module::import("sys");
-        py::list pythonPath(sys.attr("path"));
-        py::print(pythonPath);
+        py::str version(sys.attr("version"));
+        py::print(version);
     }
     catch (py::error_already_set& e)
     {

@@ -5,24 +5,27 @@ environment:
   CTEST_OUTPUT_ON_FAILURE:
     1
   matrix:
-    - PYTHON: C:\Python27.10
+    - PYTHON_DIR: C:\Python27.10
       PYTHON_VERSION: 2.7.10
+      PYTHON_INSTALLER: python-2.7.10.msi
+    - PYTHON_DIR: C:\Python3.5.0
+      PYTHON_VERSION: 3.5.0
+      PYTHON_INSTALLER: python-3.5.0.exe
       
 configuration: Release
 
 install:
   - git submodule update --init --recursive
-  - if "%platform%"=="Win32" set PYTHON_URL=https://www.python.org/ftp/python/2.7.10/python-2.7.10.msi
-  - if "%platform%"=="x64" set PYTHON_URL=https://www.python.org/ftp/python/2.7.10/python-2.7.10.amd64.msi
-  - appveyor DownloadFile %PYTHON_URL% -FileName python2710.msi
-  - msiexec /i python2710.msi /qn /norestart TARGETDIR=%PYTHON%
-  - set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
+  - set PYTHON_URL=https://www.python.org/ftp/python/%PYTHON_VERSION%/%PYTHON_INSTALLER%
+  - appveyor DownloadFile %PYTHON_URL% -FileName %PYTHON_INSTALLER%
+  - msiexec /i %PYTHON_INSTALLER% /qn /norestart TARGETDIR=%PYTHON_DIR%
+  - set PATH=%PYTHON_DIR%;%PYTHON_DIR%\\Scripts;%PATH%
   - appveyor DownloadFile https://bootstrap.pypa.io/get-pip.py
   - python get-pip.py
   - call scripts\install-gmusicapi.bat 
 
 build_script:
-  - cmake . -B_build
+  - cmake . -B_build -DPYBIND11_PYTHON_VERSION=%PYTHON_VERSION%
   - cmake --build _build --config %CONFIGURATION% -- -clp:Verbosity=minimal
   
 test_script:

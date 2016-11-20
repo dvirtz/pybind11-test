@@ -4,6 +4,7 @@ language: python
 
 python:
   - 2.7.10
+  - 3.5
 
 env:
   matrix:
@@ -30,6 +31,6 @@ install:
   - source scripts/install-gmusicapi.sh
 
 script:
-  - cmake . -B_build -DCMAKE_BUILD_CONFIGURATION=$BUILD_TYPE
+  - cmake . -B_build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DPYBIND11_PYTHON_VERSION=$TRAVIS_PYTHON_VERSION
   - cmake --build _build
   - cmake --build _build --target test
