@@ -5,20 +5,15 @@ environment:
   CTEST_OUTPUT_ON_FAILURE:
     1
   matrix:
-    - PYTHON_DIR: C:\Python27.10
-      PYTHON_VERSION: 2.7.10
-      PYTHON_INSTALLER: python-2.7.10.msi
-    - PYTHON_DIR: C:\Python3.5.0
-      PYTHON_VERSION: 3.5.0
-      PYTHON_INSTALLER: python-3.5.0.exe
+    - PYTHON_DIR: C:\\Python27
+      PYTHON_VERSION: 2.7.12
+    - PYTHON_DIR: C:\\Python35
+      PYTHON_VERSION: 3.5.2
       
 configuration: Release
 
 install:
   - git submodule update --init --recursive
-  - set PYTHON_URL=https://www.python.org/ftp/python/%PYTHON_VERSION%/%PYTHON_INSTALLER%
-  - appveyor DownloadFile %PYTHON_URL% -FileName %PYTHON_INSTALLER%
-  - msiexec /i %PYTHON_INSTALLER% /qn /norestart TARGETDIR=%PYTHON_DIR%
   - set PATH=%PYTHON_DIR%;%PYTHON_DIR%\\Scripts;%PATH%
   - appveyor DownloadFile https://bootstrap.pypa.io/get-pip.py
   - python get-pip.py
